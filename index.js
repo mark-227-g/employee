@@ -156,35 +156,45 @@ function UpdateEmployeeManager(){
 
 /****************************************
  ****************************************/
-  function performAction()
+  function performAction(response)
   {
-    
-
+    console.log("action" + (response.inputAction))
+    switch (response.inputAction) 
+    {
+      case "Quit": {
+        console.log("return true")
+        return true;
+      }
     }
+    console.log("return False")
+    return false;
+    
   }
 
 /****************************************
  Use inquirer to ask the questions
  ****************************************/
  function askQuestions(){
-  const quit = false;
-  do {
-    inquirer
-    .prompt(questions)
-    .then(response => {
-      console.log(response);
-      performAction(response);
-      })
-    
-    } while(quit==false);
-  };
+   
+  inquirer
+  .prompt(questions)
+  .then(response => {
+    console.log("ask Questions" +response.inputAction);
+    return performAction(response);
+    })
+};
 /****************************************
  function to initialize app init will first
  ask the questions. if the function is 
  successful then write the readme file
  ****************************************/
  function init() {
-    askQuestions();
+  console.log("init program")
+  var done=false
+    while(!done)
+    {done=askQuestions()
+    };
+ 
   }
   
   /****************************************
