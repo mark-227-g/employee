@@ -143,73 +143,73 @@ const actionTypes=[
     message: "What would you like to do?",
     choices: actionTypes
   } ,
-  /*
+  
   {
     type: "input",
     name: "AddRole.inputRoleName",
     message: "What is the name of the role: ",
- //   when: answers.inputAction === 'AddRole'
+   when:(answers)=>answers.inputAction == 'AddRole'
   },
   {
     type: "input",
     name: "AddRole.inputRoleSalary",
     message: "What is the salary of the role? ",
- //   when: answers.inputAction === 'AddRole'
+    when:(answers)=> answers.inputAction == 'AddRole'
   },
   {
     type: "input",
     name: "AddRole.inputRoleDepartment",
     message: "Which department does the role belong to? ",
-  //  when:answers.inputAction === 'AddRole'
+   when:(answers)=>answers.inputAction == 'AddRole'
     // show list of departments
-  },*/
+  },
   {
     type: "input",
     name: "AddDepartment.inputDepartmentName",
     message: "What is the name of the department? ",
-    when:answers.inputAction == 'AddDepartment'
-  } /*,
+    when:(answers)=>answers.inputAction == 'AddDepartment'
+  } ,
   {
     type: "input",
     name: "AddEmployee.inputEmployeeFirstName",
     message: "What is the employee's first name? ",
- //   when:answers.inputAction === 'AddEmployee'
+   when:(answers)=>answers.inputAction === 'AddEmployee'
   },
   {
     type: "input",
     name: "AddEmployee.inputEmployeeLastName",
     message: "What is the employee's last name? ",
- //   when:answers.inputAction === 'AddEmployee'
+   when:(answers)=>answers.inputAction === 'AddEmployee'
   },
   {
     type: "input",
     name: "AddEmployee.inputEmployeeRole",
     message: "What is the employee's role? ",
- //  when:answers.inputAction === 'AddEmployee'
+   when:(answers)=>answers.inputAction === 'AddEmployee'
     //list of roles
   },
   {
     type: "input",
     name: "AddEmployee.inputEmployeeManager",
     message: "Who is the employee's manager? ",
-   // when:answers.inputAction === 'AddEmployee'
+   when:(answers)=>answers.inputAction === 'AddEmployee'
     // list of managers
   },
   {
     type: "input",
-    name: "UpdateEmployeeRole.inputEmployeeManager",
+    name: "UpdateEmployeeManager.newEmployeeManager",
     message: "Who is the employee's manager? ",
-   // when:answers.inputAction === 'AddEmployee'
+   when:(answers)=>answers.inputAction === 'UpdateEmployeeManager'
     // list of managers
   },
   {
     type: "input",
-    name: "UpdateEmployeeManager.updateEmployeeRole",
+    name: "UpdateEmployeeRole.newEmployeeRole",
     message: "Which role do you want to assign the selected employee? ",
-   // when:answers.inputAction === 'AddEmployee'
+   when:(answers)=>answers.inputAction === 'UpdateEmployeeRole'
     // list of managers
   },
-*/
+
 
 
   
