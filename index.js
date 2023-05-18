@@ -17,7 +17,7 @@ const db =  mysql.createConnection(
     database: 'tracker_db'
   })
 
-//const { default: Choices } = require("inquirer/lib/objects/choices");
+const { default: Choices } = require("inquirer/lib/objects/choices");
 
 
 function dbQuery(sql) {
@@ -121,17 +121,17 @@ function UpdateEmployeeManager(){
 /****************************************
  ****************************************/
 const actionTypes=[
-  'ViewAllDepartments',
-  'ViewAllRoles',
-  'ViewAllEmployees',
+  {id:'ViewAllDepartments',name:'ViewAllDepartments'},
+  {id:'ViewAllRoles',name:'ViewAllRoles'},
+  {id:'ViewAllEmployees',name:'ViewAllEmployees'},
 
-  'AddDepartment',
-  'AddRole',
-  'AddEmployee',
+  {id:'AddDepartment',name:'AddDepartment'},
+  {id:'AddRole',name:'AddRole'},
+  {id:'AddEmployee',name:'AddEmployee'},
 
-  'UpdateEmployeeRole',
-  'UpdateEmployeeManager',
-  'Quit'
+  {id:'UpdateEmployeeRole',name:"UpdateEmployeeRole"},
+  {id:'UpdateEmployeeManager',name:'UpdateEmployeeManager'},
+  {id:'Quit',name:'quit'}
 ];
 
 /****************************************
@@ -142,63 +142,74 @@ const actionTypes=[
     name: "inputAction",
     message: "What would you like to do?",
     choices: actionTypes
-  },
+  } ,
+  /*
   {
     type: "input",
     name: "AddRole.inputRoleName",
-    message: "What is the name of the role: "
+    message: "What is the name of the role: ",
+ //   when: answers.inputAction === 'AddRole'
   },
   {
     type: "input",
     name: "AddRole.inputRoleSalary",
-    message: "What is the salary of the role? "
+    message: "What is the salary of the role? ",
+ //   when: answers.inputAction === 'AddRole'
   },
   {
     type: "input",
     name: "AddRole.inputRoleDepartment",
-    message: "Which department does the role belong to? "
+    message: "Which department does the role belong to? ",
+  //  when:answers.inputAction === 'AddRole'
     // show list of departments
-  },
+  },*/
   {
     type: "input",
     name: "AddDepartment.inputDepartmentName",
-    message: "What is the name of the department? "
-  },
+    message: "What is the name of the department? ",
+    when:answers.inputAction == 'AddDepartment'
+  } /*,
   {
     type: "input",
     name: "AddEmployee.inputEmployeeFirstName",
-    message: "What is the employee's first name? "
+    message: "What is the employee's first name? ",
+ //   when:answers.inputAction === 'AddEmployee'
   },
   {
     type: "input",
     name: "AddEmployee.inputEmployeeLastName",
-    message: "What is the employee's last name? "
+    message: "What is the employee's last name? ",
+ //   when:answers.inputAction === 'AddEmployee'
   },
   {
     type: "input",
     name: "AddEmployee.inputEmployeeRole",
-    message: "What is the employee's role? "
+    message: "What is the employee's role? ",
+ //  when:answers.inputAction === 'AddEmployee'
     //list of roles
   },
   {
     type: "input",
     name: "AddEmployee.inputEmployeeManager",
-    message: "Who is the employee's manager? "
+    message: "Who is the employee's manager? ",
+   // when:answers.inputAction === 'AddEmployee'
     // list of managers
   },
   {
     type: "input",
     name: "UpdateEmployeeRole.inputEmployeeManager",
-    message: "Who is the employee's manager? "
+    message: "Who is the employee's manager? ",
+   // when:answers.inputAction === 'AddEmployee'
     // list of managers
   },
   {
     type: "input",
     name: "UpdateEmployeeManager.updateEmployeeRole",
-    message: "Which role do you want to assign the selected employee? "
+    message: "Which role do you want to assign the selected employee? ",
+   // when:answers.inputAction === 'AddEmployee'
     // list of managers
   },
-
+*/
 
 
   
@@ -209,12 +220,14 @@ const actionTypes=[
  Use inquirer to ask the questions
  ****************************************/
  function askMainQuestions(){
-  console.log("1 start askmain")
+  console.log("1 start ask main")
   inquirer
   .prompt(mainQuestions)
   .then((answers) => {
+    console.log(answers.inputAction);
+    console.log(JSON.stringify(answers));
     console.log("Action " + answers.inputAction);
-    performAction(answers)
+    //performAction(answers)
     console.log("1 askmain after perform action")
     //return
     })
