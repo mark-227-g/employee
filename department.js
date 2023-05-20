@@ -1,6 +1,6 @@
 // Include packages needed for this application
-const inquirer = require("inquirer");
 const mysql = require('mysql2');
+const consoleTable = require('console.table')
 
 // Connect to database
 const db =  mysql.createConnection(
@@ -12,56 +12,20 @@ const db =  mysql.createConnection(
       password: 'BootCamp',
       database: 'tracker_db'
     })
-// make query a promise
-function dbQuery(sql) {
-    return new Promise((resolve,reject) => {
-      db.query(sql,(err,results,fields) => {
-        if (err) {
-          reject(err)
-        }
-        else {
-          resolve(results)
-        }
-      })
-    })
-  }
 
 /****************************************
  ****************************************/
 function ViewAllDepartments(){
-    console.log("3 start view all department")
-    console.log("3 View All Roles id title department_id, salary")
-    dbQuery("select * from department")
-      .then((results) => {
-        console.table(results)
-        return
-      })
-      .catch((err)=>{
-        console.log(err)
-      })
-    console.log("3 end view all department")
-    return
+    db.query('SELECT * FROM department', function (err, results) {
+      console.table(results);
+    });
 }
-
-  /****************************************
-   ****************************************/
-  const departmentQuestions = [
-    {
-      type: "input",
-      name: "inputDepartmentName",
-      message: "What is the name of the department? "
-    }
-  ]
-  function AddDepartment(){
-    inquirer
-    .prompt(departmentQuestions)
-    .then(response => {
-      console.log(response);
-      //createLogo(response);
-      })
-      console.log('Added <department> to database');
-  
-  };
-
-  exports.ViewAllDepartments = ViewAllDepartments
-  
+/****************************************
+ ****************************************/
+function AddDepartment(departmentName){
+  //db.query(`insert into department (name) values('${name}')`)
+ a="hello"
+ // console.log(`insert into department (name) values('${departmentName}')`);
+ console.log(`Added ${departmentName} to the database`) 
+}
+module.exports={ViewAllDepartments,AddDepartment}

@@ -1,7 +1,6 @@
 // Include packages needed for this application
 const inquirer = require("inquirer");
 const mysql = require('mysql2');
-const consoleTable = require('console.table')
 const department = require("./department")
 const role = require("./role")
 const employee = require("./employee")
@@ -32,91 +31,7 @@ function dbQuery(sql) {
     })
   })
 }
-
-
-
-
-
-/****************************************
- ****************************************/
-
-function AddEmployee(){
-/*
-  inquirer
-  .prompt(employeeQuestions)
-  .then(response => {
-    console.log(response);
-    //createLogo(response);
-    })
-    */
-    console.log('Added <firstname> <lastname> to database');
-};
-
-/****************************************
- ****************************************/
-function UpdateEmployeeRole(){
-// Which employee's role do yu want to update?
-// Which role do you want to assign the selected employee?
-    console.log("Updated employee's role")
-};
-/****************************************
- ****************************************/
-function UpdateEmployeeManager(){
-    console.log("Updated employee's manager")
-    // Which role do you want to assign the selected employee?
-};
-
-/****************************************
- ****************************************/
-  function performAction(response)
-  {
-    console.log("2 start perform action")
-    console.log("2 action" + (response.inputAction))
-    
-    switch (response.inputAction) 
-    {
-      case 'View All Departments': 
-            department.ViewAllDepartments();
-            console.log("2 done")
-            break;
-      case 'View All Roles':
-            role.ViewAllRoles(); 
-            console.log("2 done")
-            break;
-      case 'View All Employees':
-            employee.ViewAllEmployees(); 
-            console.log("2 done")
-            break;
-      case 'Add Department':
-            AddDepartment(); 
-            break;
-      case 'Add Role': 
-            role.AddRole();
-            break;
-      case 'Add Employee': 
-            AddEmployee();
-            break;
-      case 'Update Employee Role': 
-            UpdateEmployeeRole();
-            break;
-      case  'Update Employee Manager':
-            UpdateEmployeeManager();
-            break;
-      case "Quit":
-            process.exit
-            break;
-    }
-   // console.log("return False")
-    
-   // return false;
-
-   console.log ("2 end perform action")
-   askMainQuestions()
-   return;
-    
-  }
-
-
+let empID=0;
 
 /****************************************
  ****************************************/
@@ -131,7 +46,7 @@ const actionTypes=[
 
   {id:'UpdateEmployeeRole',name:"UpdateEmployeeRole"},
   {id:'UpdateEmployeeManager',name:'UpdateEmployeeManager'},
-  {id:'Quit',name:'quit'}
+  {id:'Quit',name:'Quit'}
 ];
 
 /****************************************
@@ -209,12 +124,68 @@ const actionTypes=[
    when:(answers)=>answers.inputAction === 'UpdateEmployeeRole'
     // list of managers
   },
-
-
-
-  
-
 ]
+
+
+/****************************************
+ ****************************************/
+
+
+
+
+
+
+/****************************************
+ ****************************************/
+function performAction(response)
+{
+  console.log("========================")
+  console.log("2 action " + (response.inputAction))
+  
+  switch (response.inputAction) 
+  {
+    case 'ViewAllDepartments':
+          console.log("going to call department function") 
+          department.ViewAllDepartments();
+          console.log("2 done")
+          break;
+    case 'ViewAllRoles':
+          role.ViewAllRoles(); 
+          console.log("2 done")
+          break;
+    case 'ViewAllEmployees':
+          employee.ViewAllEmployees(); 
+          console.log("2 done")
+          break;
+    case 'AddDepartment':
+          department.AddDepartment(response.AddDepartment.inputDepartmentName); 
+          break;
+    case 'AddRole': 
+          role.AddRole(response.AddRole.inputRoleName,response.AddRole.inputRoleSalary,response.AddRole.inputRoleDepartment);
+          break;
+    case 'AddEmployee': 
+          employee.AddEmployee(response.AddEmployee.inputEmployeeFirstName,response.AddEmployee.inputEmployeeLastName,response.AddEmployee.inputEmployeeRole,response.AddEmployee.inputEmployeeManager);
+          break;
+    case 'UpdateEmployeeRole': 
+          role.UpdateEmployeeRole(empID,response.newEmployeeRole);
+          break;
+    case  'UpdateEmployeeManager':
+          employee.UpdateEmployeeManager(empID,response.newEmployeeManager);
+          break;
+    case "Quit":
+          process.exit(1)
+          break;
+  }
+ // console.log("return False")
+  
+ // return false;
+
+ console.log ("2 end perform action")
+ askMainQuestions()
+ return;
+  
+}
+
 
 /****************************************
  Use inquirer to ask the questions
@@ -225,34 +196,24 @@ const actionTypes=[
   .prompt(mainQuestions)
   .then((answers) => {
     console.log(answers.inputAction);
-    console.log(JSON.stringify(answers));
-    console.log("Action " + answers.inputAction);
-    //performAction(answers)
+    performAction(answers)
     console.log("1 askmain after perform action")
-    //return
     })
   .catch((error)=>{
       console.log("1 Error " + error)
-      //return
+
     });
     console.log("1 end askmain")
-    //return
-
-
-
-
 };
+
 /****************************************
  
  ****************************************/
  function main() {
   console.log("***** Start main ******")
-
   askMainQuestions();
   console.log("***** end main ********")
   return;
-
-  
   }
   
   /****************************************

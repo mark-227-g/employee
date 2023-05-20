@@ -1,6 +1,6 @@
 // Include packages needed for this application
-const inquirer = require("inquirer");
 const mysql = require('mysql2');
+const consoleTable = require('console.table')
 
 // Connect to database
 const db =  mysql.createConnection(
@@ -12,34 +12,45 @@ const db =  mysql.createConnection(
       password: 'BootCamp',
       database: 'tracker_db'
     })
-// make query a promise
-function dbQuery(sql) {
-    return new Promise((resolve,reject) => {
-      db.query(sql,(err,results,fields) => {
-        if (err) {
-          reject(err)
-        }
-        else {
-          resolve(results)
-        }
-      })
-    })
-  }
 
-  /****************************************
+/****************************************
  ****************************************/
 function ViewAllEmployees(){
-    console.log("3 start view all employee")
-    console.log("3 View All Roles id title department_id, salary")
-    dbQuery("select * from employee")
-      .then((results) => {
-        console.table(results)
-      })
-      .catch((err)=>{
-        console.log(err)
-      })
-    console.log("3 end view all employee")
-    return
+    db.query('SELECT * FROM employee', function (err, results) {
+      console.table(results);
+    });
 }
+
+/****************************************
+ ****************************************/
+function AddEmployee(employeeFirstName,employeeLastName,employeeRole,employeeManager){
+  //db.query(`insert into department (name) values('${name}')`)
+ //a="hello"
+//  console.log(`insert into department (name) values('${departmentName}')`);
+console.log(employeeFirstName+" : "+employeeLastName+" : "+employeeRole+" : "+employeeManager)
+console.log(`Added ${employeeFirstName} to the database`) 
+}
+
+/*
+function AddEmployee(){
   
-exports.ViewAllEmployees = ViewAllEmployees
+    inquirer
+    .prompt(employeeQuestions)
+    .then(response => {
+      console.log(response);
+      //createLogo(response);
+      })
+      
+      console.log('Added <firstname> <lastname> to database');
+  };
+  */
+
+/****************************************
+ ****************************************/
+function UpdateEmployeeManager(empID,newManager){
+  console.log(empID+" : "+newManager)
+  console.log("Updated employee's manager")
+  // Which role do you want to assign the selected employee?
+};
+  
+module.exports= {ViewAllEmployees,AddEmployee,UpdateEmployeeManager}
