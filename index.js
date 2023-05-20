@@ -31,7 +31,7 @@ function dbQuery(sql) {
     })
   })
 }
-let empID=0;
+let empID=1;
 
 /****************************************
  ****************************************/
@@ -139,23 +139,18 @@ const actionTypes=[
  ****************************************/
 function performAction(response)
 {
-  console.log("========================")
-  console.log("2 action " + (response.inputAction))
   
   switch (response.inputAction) 
   {
     case 'ViewAllDepartments':
           console.log("going to call department function") 
           department.ViewAllDepartments();
-          console.log("2 done")
           break;
     case 'ViewAllRoles':
           role.ViewAllRoles(); 
-          console.log("2 done")
           break;
     case 'ViewAllEmployees':
           employee.ViewAllEmployees(); 
-          console.log("2 done")
           break;
     case 'AddDepartment':
           department.AddDepartment(response.AddDepartment.inputDepartmentName); 
@@ -167,20 +162,17 @@ function performAction(response)
           employee.AddEmployee(response.AddEmployee.inputEmployeeFirstName,response.AddEmployee.inputEmployeeLastName,response.AddEmployee.inputEmployeeRole,response.AddEmployee.inputEmployeeManager);
           break;
     case 'UpdateEmployeeRole': 
-          role.UpdateEmployeeRole(empID,response.newEmployeeRole);
+          employee.UpdateEmployeeRole(empID,response.UpdateEmployeeRole.newEmployeeRole);
           break;
     case  'UpdateEmployeeManager':
-          employee.UpdateEmployeeManager(empID,response.newEmployeeManager);
+          employee.UpdateEmployeeManager(empID,response.UpdateEmployeeManager.newEmployeeManager);
           break;
     case "Quit":
           process.exit(1)
           break;
   }
- // console.log("return False")
-  
- // return false;
 
- console.log ("2 end perform action")
+
  askMainQuestions()
  return;
   

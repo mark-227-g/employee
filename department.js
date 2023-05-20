@@ -14,18 +14,21 @@ const db =  mysql.createConnection(
     })
 
 /****************************************
- ****************************************/
+View Departments 
+****************************************/
 function ViewAllDepartments(){
     db.query('SELECT * FROM department', function (err, results) {
-      console.table(results);
-    });
+    console.table(results);});
 }
 /****************************************
- ****************************************/
+Add Department 
+****************************************/
 function AddDepartment(departmentName){
-  //db.query(`insert into department (name) values('${name}')`)
- a="hello"
- // console.log(`insert into department (name) values('${departmentName}')`);
- console.log(`Added ${departmentName} to the database`) 
+  db.query(`insert into department (name) values('${departmentName}')`)
+  console.log(`Added ${departmentName} to the database`) 
 }
+
+/****************************************
+Exports
+ ****************************************/
 module.exports={ViewAllDepartments,AddDepartment}

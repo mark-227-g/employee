@@ -14,43 +14,39 @@ const db =  mysql.createConnection(
     })
 
 /****************************************
- ****************************************/
+View Employees
+****************************************/
 function ViewAllEmployees(){
-    db.query('SELECT * FROM employee', function (err, results) {
-      console.table(results);
-    });
+  db.query('SELECT * FROM employee', function (err, results) {
+    console.table(results);
+  });
 }
 
 /****************************************
- ****************************************/
+Add Employee
+****************************************/
 function AddEmployee(employeeFirstName,employeeLastName,employeeRole,employeeManager){
-  //db.query(`insert into department (name) values('${name}')`)
- //a="hello"
-//  console.log(`insert into department (name) values('${departmentName}')`);
-console.log(employeeFirstName+" : "+employeeLastName+" : "+employeeRole+" : "+employeeManager)
+db.query(`insert into employee (first_name,last_name,role_id,manager_id) values('${employeeFirstName}','${employeeLastName}','${employeeRole}','${employeeManager}')`)
 console.log(`Added ${employeeFirstName} to the database`) 
 }
 
-/*
-function AddEmployee(){
-  
-    inquirer
-    .prompt(employeeQuestions)
-    .then(response => {
-      console.log(response);
-      //createLogo(response);
-      })
-      
-      console.log('Added <firstname> <lastname> to database');
-  };
-  */
-
 /****************************************
+Update Manager
  ****************************************/
 function UpdateEmployeeManager(empID,newManager){
-  console.log(empID+" : "+newManager)
+  db.query(`update employee set manager_id = '${newManager}' where id='${empID}'`)
   console.log("Updated employee's manager")
-  // Which role do you want to assign the selected employee?
 };
-  
-module.exports= {ViewAllEmployees,AddEmployee,UpdateEmployeeManager}
+
+/****************************************
+Update Role
+****************************************/
+function UpdateEmployeeRole(empID,newRole){
+  db.query(`update employee set role_id = '${newRole}' where id='${empID}'`)
+   console.log("Updated employee's role")
+};
+
+/****************************************
+Exports
+ ****************************************/
+module.exports= {ViewAllEmployees,AddEmployee,UpdateEmployeeManager,UpdateEmployeeRole}

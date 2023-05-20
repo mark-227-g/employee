@@ -14,28 +14,23 @@ const db =  mysql.createConnection(
     })
 
 /****************************************
- ****************************************/
+View Roles
+****************************************/
 function ViewAllRoles(){
     db.query('SELECT * FROM role', function (err, results) {
       console.table(results);
     });
 }
 
-function AddRole(roleName,roleSalary,roleDepartment){
-  //db.query(`insert into department (name) values('${name}')`)
- //a="hello"
-//  console.log(`insert into department (name) values('${departmentName}')`);
-console.log(roleName+" : "+roleSalary+" : "+roleDepartment)
-console.log(`Added ${roleName} to the database`) 
-}
-
 /****************************************
- ****************************************/
-function UpdateEmployeeRole(empID,newRole){
-  // Which employee's role do yu want to update?
-  // Which role do you want to assign the selected employee?
-  console.log(empID+" : "+newRole)
-      console.log("Updated employee's role")
-  };
+Add Role
+****************************************/
+function AddRole(roleName,roleSalary,roleDepartment){
+  db.query(`insert into role (title,salary,department_id) values('${roleName}','${roleSalary}','${roleDepartment}')`)
+  console.log(`Added ${roleName} to the database`) 
+}
+/****************************************
 
-module.exports={ViewAllRoles,AddRole,UpdateEmployeeRole}
+Exports
+ ****************************************/
+module.exports={ViewAllRoles,AddRole}
