@@ -4,6 +4,7 @@ const mysql = require('mysql2');
 const department = require("./department")
 const role = require("./role")
 const employee = require("./employee")
+var figlet = require("figlet");
 
 // Connect to database
 const db =  mysql.createConnection(
@@ -178,12 +179,19 @@ function performAction(response)
   
 }
 
-
 /****************************************
  Use inquirer to ask the questions
  ****************************************/
  function askMainQuestions(){
   console.log("1 start ask main")
+
+  const choices = department.inqChoices();
+  console.log(choices)
+
+
+  console.log(role.inqChoices())
+
+  console.log(employee.inqChoices())
   inquirer
   .prompt(mainQuestions)
   .then((answers) => {
@@ -202,10 +210,28 @@ function performAction(response)
  
  ****************************************/
  function main() {
-  console.log("***** Start main ******")
-  askMainQuestions();
-  console.log("***** end main ********")
-  return;
+/*
+    console.log("***** Start main ******")
+    figlet.text(
+      "Employee Manager", 
+      {
+        font:"Rectangles"
+      },
+      function (err, data) {
+        if (err) {
+          console.log("Something went wrong...");
+          console.dir(err);
+          return;
+        }
+        console.log(data);
+    });
+*/
+const choices = department.inqChoices();
+  console.log(choices)
+    
+    askMainQuestions();
+    console.log("***** end main ********")
+    return;
   }
   
   /****************************************

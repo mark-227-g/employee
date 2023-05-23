@@ -27,8 +27,41 @@ function AddDepartment(departmentName){
   db.query(`insert into department (name) values('${departmentName}')`)
   console.log(`Added ${departmentName} to the database`) 
 }
+/****************************************
+Get Choices
+****************************************/
+/*
+async function inqChoicesSQL(){
+  const response=  function(ms){
+    return new Promise(function (res){
+      db.query('SELECT id,name FROM department');
+      return(res)
+    })
+  }
+  return(response);
+}
+*/
+const inqChoicesSQL = function (){
+  return new Promise(function(){
+    //return db.query('SELECT id,name FROM department');
+    return("this is the query return");
+  })
+  
+
+}
+
+async function inqChoices(){
+  await inqChoices();
+  return(response);
+}
+
+
+
+
+
+
 
 /****************************************
 Exports
  ****************************************/
-module.exports={ViewAllDepartments,AddDepartment}
+module.exports={ViewAllDepartments,AddDepartment,inqChoices}

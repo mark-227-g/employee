@@ -47,6 +47,14 @@ function UpdateEmployeeRole(empID,newRole){
 };
 
 /****************************************
+Get Choices
+****************************************/
+function inqChoices(){
+    db.query('SELECT id,first_name,last_name FROM employee', function (err, results) {
+      return(results);});
+  }
+
+/****************************************
 Exports
  ****************************************/
-module.exports= {ViewAllEmployees,AddEmployee,UpdateEmployeeManager,UpdateEmployeeRole}
+module.exports= {ViewAllEmployees,AddEmployee,UpdateEmployeeManager,UpdateEmployeeRole,inqChoices}

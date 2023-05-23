@@ -31,6 +31,15 @@ function AddRole(roleName,roleSalary,roleDepartment){
 }
 /****************************************
 
+/****************************************
+Get Choices
+****************************************/
+function inqChoices(){
+  db.query('SELECT id,title FROM role', function (err, results) {
+    return(results);});
+}
+
+/****************************************
 Exports
  ****************************************/
-module.exports={ViewAllRoles,AddRole}
+module.exports={ViewAllRoles,AddRole,inqChoices}
