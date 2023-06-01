@@ -1,34 +1,43 @@
 // Include packages needed for this application
 const mysql = require('mysql2');
 const consoleTable = require('console.table')
+const connection = require("./connection");
 
-// Connect to database
-const db =  mysql.createConnection(
-    {
-      host: 'localhost',
-      // MySQL username,
-      user: 'root',
-      // MySQL password
-      password: 'BootCamp',
-      database: 'tracker_db'
-    })
 
 /****************************************
 View Roles
 ****************************************/
-function ViewAllRoles(){
-    db.query('SELECT * FROM role', function (err, results) {
-      console.table(results);
-    });
+async function ViewAllRoles(){
+  connection.query('SELECT * FROM role', await function (err, results) {
+    console.log("");
+    if(err){
+      console.log(err);
+    }
+    else{
+    console.table(results);
+    }
+  });
 }
 
 /****************************************
 Add Role
 ****************************************/
-function AddRole(roleName,roleSalary,roleDepartment){
-  db.query(`insert into role (title,salary,department_id) values('${roleName}','${roleSalary}','${roleDepartment}')`)
-  console.log(`Added ${roleName} to the database`) 
+async function AddRole(roleName,roleSalary,roleDepartment){
+  
+  connection.query(`insert into role (title,salary,department_id) values('${roleName}','${roleSalary}','${roleDepartment}')`, 
+  await function (err, results) {
+          console.log("");
+    if(err){
+      console.log(err);
+    }
+    else{
+
+      console.log(`Added ${roleName} to the database`)
+    }
+
+  });
 }
+
 /****************************************
 
 /****************************************
