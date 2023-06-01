@@ -8,7 +8,7 @@ const consoleTable = require('console.table')
 View Employees
 ****************************************/
 async function ViewAllEmployees(){
-  connection.query('SELECT * FROM employee', await function (err, results) {
+  connection.query('SELECT e.first_name "First Name", e.last_name "Last Name", r.title "Title", m.first_name "Manager First Name", m.last_name "Manager Last Name" FROM employee e,employee m, role r where (e.role_id = r.id) AND (e.manager_id=m.id)', await function (err, results) {
     console.log("");
     if(err){
       console.log(err);

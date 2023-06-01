@@ -61,7 +61,8 @@ let employeeList=[
   {id:'3',name:'sally'}
 ];
 function getIdByName(searchName,searchArr){
-
+console.log(searchName);
+console.log(searchArr)
 function isName(list){
     return list.name===searchName;
   }
@@ -154,6 +155,13 @@ const mainQuestions = [
   },
   {
     type: "list",
+    name: "UpdateEmployeeManager.Employee",
+    message: "Which employee? ",
+    choices: employeeList,
+    when:(answers)=>{return answers.inputAction == 'UpdateEmployeeManager'}
+  },
+  {
+    type: "list",
     name: "UpdateEmployeeManager.newEmployeeManager",
     message: "Who is the employee's manager? ",
     choices: employeeList,
@@ -162,9 +170,16 @@ const mainQuestions = [
   },
   {
     type: "list",
-    name: "UpdateEmployeeRole.newEmployeeRole",
-    message: "Which role do you want to assign the selected employee? ",
+    name: "UpdateEmployeeRole.Employee",
+    message: "Which employee? ",
     choices: employeeList,
+    when:(answers)=>{return answers.inputAction == 'UpdateEmployeeRole'}
+  },
+  {
+    type: "list",
+    name: "UpdateEmployeeRole.newRole",
+    message: "Which role do you want to assign the selected employee? ",
+    choices: roleList,
     when:(answers)=>{return answers.inputAction == 'UpdateEmployeeRole'}
   },
 ]
@@ -193,14 +208,14 @@ function performAction(response)
             ,getIdByName(response.AddRole.inputRoleDepartment,departmentList))
           break;
     case 'AddEmployee': 
-          employee.AddEmployee(response.AddEmployee.inputEmployeeFirstName,response.AddEmployee.inputEmployeeLastName,getIdByName(response.AddEmployee.inputEmployeeRole),getIdByName(response.AddEmployee.inputEmployeeManager));
+          employee.AddEmployee(response.AddEmployee.inputEmployeeFirstName,response.AddEmployee.inputEmployeeLastName,getIdByName(response.AddEmployee.inputEmployeeRole,roleList),getIdByName(response.AddEmployee.inputEmployeeManager,employeeList));
           break;
     case 'UpdateEmployeeRole': 
-          department.getDepartmentNames();
-          //employee.UpdateEmployeeRole(empID,response.UpdateEmployeeRole.newEmployeeRole);
+          employee.UpdateEmployeeRole(getIdByName(response.UpdateEmployeeRole.Employee,employeeList),getIdByName(response.UpdateEmployeeRole.newRole,roleList));
           break;
     case  'UpdateEmployeeManager':
-          employee.UpdateEmployeeManager(empID,response.UpdateEmployeeManager.newEmployeeManager);
+          employee.UpdateEmployeeManager(getIdByName(response.UpdateEmployeeManager.Employee,employeeList),getIdByName(response.UpdateEmployeeManager.newEmployeeManager,employeeList));
+          
           break;
     case "Quit":
           process.exit(1)
