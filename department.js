@@ -14,7 +14,7 @@ async function ViewAllDepartments(){
       console.log(err);
     }
     else{
-    console.table(results);
+      console.table(results)
     }
   });
 }
@@ -23,7 +23,7 @@ async function ViewAllDepartments(){
 Add Department 
 ****************************************/
 async function AddDepartment(departmentName){
-  connection.query(`insert into department (name) values('${departmentName}`, 
+  connection.query(`insert into department (name) values('${departmentName}')`, 
   await function (err, results) {
     console.log("");
     if(err){
@@ -34,6 +34,7 @@ async function AddDepartment(departmentName){
     }
   });
 }
+
 
 /****************************************
 Exports

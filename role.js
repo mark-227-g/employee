@@ -31,24 +31,12 @@ async function AddRole(roleName,roleSalary,roleDepartment){
       console.log(err);
     }
     else{
-
       console.log(`Added ${roleName} to the database`)
     }
-
   });
-}
-
-/****************************************
-
-/****************************************
-Get Choices
-****************************************/
-function inqChoices(){
-  db.query('SELECT id,title FROM role', function (err, results) {
-    return(results);});
 }
 
 /****************************************
 Exports
  ****************************************/
-module.exports={ViewAllRoles,AddRole,inqChoices}
+module.exports={ViewAllRoles,AddRole}

@@ -1,8 +1,7 @@
 // Include packages needed for this application
-const mysql2 = require('mysql2');
-const util = require("util");
-const connection = require("./connection");
+const mysql = require('mysql2');
 const consoleTable = require('console.table')
+const connection = require("./connection");
 
 /****************************************
 View Employees

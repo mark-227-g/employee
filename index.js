@@ -7,6 +7,7 @@ const role = require("./role")
 const employee = require("./employee")
 var askMoreQuestions=true;
 var figlet = require("figlet");
+const connection = require("./connection");
 
 // Connect to database
 const db =  mysql.createConnection(
@@ -47,11 +48,8 @@ let roleList=[
 /**************************************
  * department list for updating department
  ****************************************/
-let departmentList=[
-  {id:'1',name:'Sales'},
-  {id:'2',name:'Engineering'},
-  {id:'3',name:'Finance'}
-];
+var departmentList;
+
 /**************************************
  * employee list for updating manager
  ****************************************/
@@ -60,6 +58,32 @@ let employeeList=[
   {id:'2',name:'sam'},
   {id:'3',name:'sally'}
 ];
+
+/****************************************
+Get Department list
+****************************************/
+async function getDepartmentList(){
+  connection.query('SELECT id, name FROM department', await function (err, results) {
+
+    if(err){
+      console.log(err);
+    }
+    else{
+      //console.log( results);
+      //departmentList=results;
+
+      departmentList=[results]
+      
+    
+    console.log("mapped " + departmentList)
+    console.log("mapped " + results)
+    }
+
+  });
+}
+function getChoices(){
+  getDepartmentList()
+}
 function getIdByName(searchName,searchArr){
 console.log(searchName);
 console.log(searchArr)
@@ -236,6 +260,7 @@ function performAction(response)
    ****************************************/
   
   const main = () =>{
+    getChoices();
     console.log("")
     inquirer
     .prompt(mainQuestions) 
