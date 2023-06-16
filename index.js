@@ -2,41 +2,30 @@
 
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const department = require("./department")
-const role = require("./role")
-const employee = require("./employee")
-var askMoreQuestions=true;
-var figlet = require("figlet");
-const connection = require("./connection");
 
-// Connect to database
-const db =  mysql.createConnection(
-  {
-    host: 'localhost',
-    // MySQL username,
-    user: 'root',
-    // MySQL password
-    password: 'BootCamp',
-    database: 'tracker_db'
-  })
+const department = require("./department")
+//const role = require("./role")
+//////const employee = require("./employee")
+
+var figlet = require("figlet");
+//const connection = require("./connection");
 
 const { default: Choices } = require("inquirer/lib/objects/choices");
-
 /*
-function dbQuery(sql) {
-  return new Promise((resolve,reject) => {
-    db.query(sql,(err,results,fields) => {
-      if (err) {
-        reject(err)
-      }
-      else {
-        resolve(results)
-      }
-    })
-  })
-}
-let empID=1;
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+
+});
+/*
+let departmentChoices = departments.map((department) => {
+                  return {name: department.name, value: department.id};
+              });
 */
+
 /**************************************
  * role list for updating role
  ****************************************/
@@ -48,7 +37,11 @@ let roleList=[
 /**************************************
  * department list for updating department
  ****************************************/
-var departmentList;
+var departmentList=[
+  {id:'1',name:'Sales'},
+  {id:'2',name:'Engineering'},
+  {id:'3',name:'Finance'}
+];
 
 /**************************************
  * employee list for updating manager
@@ -62,6 +55,7 @@ let employeeList=[
 /****************************************
 Get Department list
 ****************************************/
+/*
 async function getDepartmentList(){
   connection.query('SELECT id, name FROM department', await function (err, results) {
 
@@ -72,7 +66,10 @@ async function getDepartmentList(){
       //console.log( results);
       //departmentList=results;
 
-      departmentList=[results]
+      console.log("results: "+results)
+      return results
+      //departmentList=[results]
+      //departmentList=results.map()
       
     
     console.log("mapped " + departmentList)
@@ -121,8 +118,8 @@ const mainQuestions = [
     name: "inputAction",
     message: "What would you like to do?",
     choices: actionTypes
-  } ,
-  
+  } 
+  /*
   {
     type: "input",
     name: "AddRole.inputRoleName",
@@ -139,7 +136,7 @@ const mainQuestions = [
     type: "list",
     name: "AddRole.inputRoleDepartment",
     message: "Which department does the role belong to? ",
-    choices: departmentList,
+    choices: getDepartmentList(),
     when:(answers)=>{return answers.inputAction == 'AddRole'}
     
   },
@@ -206,6 +203,7 @@ const mainQuestions = [
     choices: roleList,
     when:(answers)=>{return answers.inputAction == 'UpdateEmployeeRole'}
   },
+  */
 ]
 
 /****************************************
@@ -260,7 +258,10 @@ function performAction(response)
    ****************************************/
   
   const main = () =>{
-    getChoices();
+    console.log("env: "+process.env.DB_HOST);
+    console.log("env: "+process.env.DB_USER);
+    console.log("env: "+process.env.DB_PASSWORD);
+   // getChoices();
     console.log("")
     inquirer
     .prompt(mainQuestions) 
@@ -270,4 +271,8 @@ function performAction(response)
       })
   }
   
+  function splash(){
+    console.log(figlet);
+    main();
+  }
   main();

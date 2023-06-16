@@ -1,14 +1,22 @@
 // Include packages needed for this application
 const mysql = require('mysql2');
 const consoleTable = require('console.table')
-const connection = require("./connection");
+//const connection = require("./connection");
+/*const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});*/
 
 
 /****************************************
 View Roles
 ****************************************/
-async function ViewAllRoles(){
-  connection.query('SELECT * FROM role', await function (err, results) {
+function ViewAllRoles(){
+  //connection.query('SELECT * FROM role', await function (err, results) {
+    db.query('SELECT * FROM role', function (err, results) {
     console.log("");
     if(err){
       console.log(err);
@@ -22,10 +30,11 @@ async function ViewAllRoles(){
 /****************************************
 Add Role
 ****************************************/
-async function AddRole(roleName,roleSalary,roleDepartment){
+function AddRole(roleName,roleSalary,roleDepartment){
   
-  connection.query(`insert into role (title,salary,department_id) values('${roleName}','${roleSalary}','${roleDepartment}')`, 
-  await function (err, results) {
+  //connection.query(`insert into role (title,salary,department_id) values('${roleName}','${roleSalary}','${roleDepartment}')`, 
+  db.query(`insert into role (title,salary,department_id) values('${roleName}','${roleSalary}','${roleDepartment}')`, 
+  function (err, results) {
           console.log("");
     if(err){
       console.log(err);
