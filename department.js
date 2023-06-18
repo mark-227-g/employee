@@ -1,6 +1,5 @@
 // Include packages needed for this application
 const mysql = require('mysql2');
-console.log("env: "+process.env);
 const consoleTable = require('console.table');
 const dbfunc = require('./dbfunctions');
 
@@ -9,12 +8,9 @@ const dbfunc = require('./dbfunctions');
 View Departments 
 ****************************************/
 function ViewAllDepartments(){
-  //connection.query('SELECT * FROM department', await function (err, results) 
-  console.log('run query')
   const db=dbfunc.connecttodb();
   db.query('SELECT * FROM department', function (err, results)
   {
-    console.log("");
     if(err){
       console.log(err);
     }
@@ -29,18 +25,14 @@ function ViewAllDepartments(){
 View Departments 
 ****************************************/
 function getDepartments(){
-  //connection.query('SELECT * FROM department', await function (err, results) 
-  console.log('run query')
   const db=dbfunc.connecttodb();
   db.query('SELECT id,name FROM department', function (err, results)
   {
-    console.log("");
     if(err){
       console.log(err);
     }
     else{
       dbfunc.closedb(db);
-      console.log(results)
       return (results);
     }
    

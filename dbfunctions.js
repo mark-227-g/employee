@@ -16,7 +16,7 @@ function connecttodb(){
           console.log('Error '+ err)
           return;
         }
-        console.log("connected")
+      //  console.log("connected")
        
       });
       return db;
@@ -26,7 +26,7 @@ function connecttodb(){
         if (err) {
           console.log("Error "+err)
         }
-        console.log("closed")
+      //  console.log("closed")
         return;
       })
     }

@@ -32,7 +32,8 @@ function getDepartments(){
       }
     }
   })
-    console.log( "after return "+departmentList )
+    console.log("department list")
+    console.log(departmentList)
     dbfunc.closedb(db);
   }
    
@@ -42,7 +43,7 @@ function getDepartments(){
 var roleList=[];
 function getRoles(){ 
   const db=dbfunc.connecttodb();
-  db.query('SELECT CAST(id AS CHAR) id, name FROM roles', function (err, results)
+  db.query('SELECT CAST(id AS CHAR) id, title name FROM role', function (err, results)
   {
     roleList.length=0;
     if(err){
@@ -56,6 +57,8 @@ function getRoles(){
       }
     }
     })
+    console.log("Role List");
+    console.log(roleList);
       dbfunc.closedb(db);
   }
 
@@ -65,7 +68,7 @@ function getRoles(){
 var employeeList=[];
 function getEmployees(){ 
   const db=dbfunc.connecttodb();
-  db.query('SELECT CAST(id AS CHAR) id, name FROM employees', function (err, results)
+  db.query('SELECT CAST(id AS CHAR) id, CONCAT(first_name," ",last_name) name FROM employee', function (err, results)
   {
     employeeList.length=0;
     if(err){
@@ -79,14 +82,15 @@ function getEmployees(){
       }
     }
     })
+    console.log("employee list")
+    console.log(employeeList)
     dbfunc.closedb(db);
 }
 
 /**************************************
  ****************************************/
 function getIdByName(searchName,searchArr){
-  console.log(searchName);
-  console.log(searchArr)
+
   function isName(list){
       return list.name===searchName;
   }
@@ -208,9 +212,8 @@ const mainQuestions = [
  ****************************************/
 function performAction(response)
 {
-  console.log('**performaction*****');
-  getDepartments();
-  getDepartments();
+
+
   
   switch (response.inputAction) 
   {
@@ -243,10 +246,14 @@ function performAction(response)
                 getIdByName(response.UpdateEmployeeManager.newEmployeeManager,employeeList));
           break;
     case "Quit":
+          console.log("*** END ***")
           process.exit(1)
           break;
   }
-  console.log("done")
+  getDepartments();
+  getRoles();
+  getEmployees();
+
   main();
 } 
 
@@ -263,10 +270,14 @@ function performAction(response)
   const main = () =>{
 
    // getChoices();
+   getDepartments();
+   getRoles();
+   getEmployees();
+
     inquirer
     .prompt(mainQuestions) 
     .then((answers) => {
-      console.log (answers),
+   //   console.log (answers),
       performAction(answers)
       })
   }
