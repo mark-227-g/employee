@@ -2,90 +2,93 @@
 
 const mysql = require('mysql2');
 const inquirer = require('inquirer');
-
+const dbfunc = require('./dbfunctions');
 const department = require("./department")
-//const role = require("./role")
-//////const employee = require("./employee")
+const role = require("./role")
+const employee = require("./employee")
 
 var figlet = require("figlet");
 //const connection = require("./connection");
 
 const { default: Choices } = require("inquirer/lib/objects/choices");
-/*
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
 
-});
-/*
-let departmentChoices = departments.map((department) => {
-                  return {name: department.name, value: department.id};
-              });
-*/
 
-/**************************************
- * role list for updating role
- ****************************************/
-let roleList=[
-  {id:'1',name:'Sales Lead'},
-  {id:'2',name:'Lead Engineer'},
-  {id:'3',name:'Accountant'}
-];
 /**************************************
  * department list for updating department
  ****************************************/
-var departmentList=[
-  {id:'1',name:'Sales'},
-  {id:'2',name:'Engineering'},
-  {id:'3',name:'Finance'}
-];
-
-/**************************************
- * employee list for updating manager
- ****************************************/
-let employeeList=[
-  {id:'1',name:'bob'},
-  {id:'2',name:'sam'},
-  {id:'3',name:'sally'}
-];
-
-/****************************************
-Get Department list
-****************************************/
-/*
-async function getDepartmentList(){
-  connection.query('SELECT id, name FROM department', await function (err, results) {
-
+let departmentList=[];
+function getDepartments(){ 
+  const db=dbfunc.connecttodb();
+  db.query('SELECT CAST(id AS CHAR) id, name FROM department', function (err, results)
+  {
+    console.log("");
     if(err){
       console.log(err);
     }
     else{
-      //console.log( results);
-      //departmentList=results;
-
-      console.log("results: "+results)
-      return results
-      //departmentList=[results]
-      //departmentList=results.map()
-      
-    
-    console.log("mapped " + departmentList)
-    console.log("mapped " + results)
+      departmentList.length=0;
+      for (const row of results) {
+        departmentList.push(row);
+      }
     }
+  })
+    console.log( "after return "+departmentList )
+    dbfunc.closedb(db);
+  }
+   
+/**************************************
+ * role list for updating role
+ ****************************************/
+var roleList=[];
+function getRoles(){ 
+  const db=dbfunc.connecttodb();
+  db.query('SELECT CAST(id AS CHAR) id, name FROM roles', function (err, results)
+  {
+    roleList.length=0;
+    if(err){
+      console.log(err);
+    }
+    else{
+      for (const row of results) {
+        roleList.push(row);
+        const id = row.id;
+        const name = row.name;
+      }
+    }
+    })
+      dbfunc.closedb(db);
+  }
 
-  });
+/**************************************
+ * employee list for updating manager
+ ****************************************/
+var employeeList=[];
+function getEmployees(){ 
+  const db=dbfunc.connecttodb();
+  db.query('SELECT CAST(id AS CHAR) id, name FROM employees', function (err, results)
+  {
+    employeeList.length=0;
+    if(err){
+      console.log(err);
+    }
+    else{
+      for (const row of results) {
+        employeeList.push(row);
+        const id = row.id;
+        const name = row.name;
+      }
+    }
+    })
+    dbfunc.closedb(db);
 }
-function getChoices(){
-  getDepartmentList()
-}
+
+/**************************************
+ ****************************************/
 function getIdByName(searchName,searchArr){
-console.log(searchName);
-console.log(searchArr)
-function isName(list){
-    return list.name===searchName;
+  console.log(searchName);
+  console.log(searchArr)
+  function isName(list){
+      return list.name===searchName;
   }
   const obj = searchArr.find(isName);
   if(obj){
@@ -95,8 +98,7 @@ function isName(list){
     return -1;
   }
 }
-/**************************************
- ****************************************/
+
 const actionTypes=[
   {id:'ViewAllDepartments',name:'ViewAllDepartments'},
   {id:'ViewAllRoles',name:'ViewAllRoles'},
@@ -111,15 +113,14 @@ const actionTypes=[
   {id:'Quit',name:'Quit'}
 ];
 
- 
 const mainQuestions = [
   {
     type: "list",
     name: "inputAction",
     message: "What would you like to do?",
     choices: actionTypes
-  } 
-  /*
+  } ,
+  
   {
     type: "input",
     name: "AddRole.inputRoleName",
@@ -136,9 +137,8 @@ const mainQuestions = [
     type: "list",
     name: "AddRole.inputRoleDepartment",
     message: "Which department does the role belong to? ",
-    choices: getDepartmentList(),
-    when:(answers)=>{return answers.inputAction == 'AddRole'}
-    
+    choices:departmentList,
+    when:(answers)=>{return answers.inputAction == 'AddRole'} 
   },
   {
     type: "input",
@@ -172,8 +172,8 @@ const mainQuestions = [
     message: "Who is the employee's manager? ",
     choices:employeeList,
     when:(answers)=>{return answers.inputAction == 'AddEmployee'}
-
   },
+
   {
     type: "list",
     name: "UpdateEmployeeManager.Employee",
@@ -187,7 +187,6 @@ const mainQuestions = [
     message: "Who is the employee's manager? ",
     choices: employeeList,
     when:(answers)=>{return answers.inputAction == 'UpdateEmployeeManager'}
-
   },
   {
     type: "list",
@@ -202,15 +201,17 @@ const mainQuestions = [
     message: "Which role do you want to assign the selected employee? ",
     choices: roleList,
     when:(answers)=>{return answers.inputAction == 'UpdateEmployeeRole'}
-  },
-  */
+  }
 ]
 
 /****************************************
  ****************************************/
 function performAction(response)
 {
-  console.log('*******');
+  console.log('**performaction*****');
+  getDepartments();
+  getDepartments();
+  
   switch (response.inputAction) 
   {
     case 'ViewAllDepartments':
@@ -226,24 +227,26 @@ function performAction(response)
           department.AddDepartment(response.AddDepartment.inputDepartmentName); 
           break;
     case 'AddRole': 
-          role.AddRole(response.AddRole.inputRoleName,response.AddRole.inputRoleSalary
-            ,getIdByName(response.AddRole.inputRoleDepartment,departmentList))
+         role.AddRole(response.AddRole.inputRoleName,response.AddRole.inputRoleSalary, 
+                      getIdByName(response.AddRole.inputRoleDepartment,departmentList))
           break;
     case 'AddEmployee': 
-          employee.AddEmployee(response.AddEmployee.inputEmployeeFirstName,response.AddEmployee.inputEmployeeLastName,getIdByName(response.AddEmployee.inputEmployeeRole,roleList),getIdByName(response.AddEmployee.inputEmployeeManager,employeeList));
+          employee.AddEmployee(response.AddEmployee.inputEmployeeFirstName,response.AddEmployee.inputEmployeeLastName,
+                    getIdByName(response.AddEmployee.inputEmployeeRole,roleList),getIdByName(response.AddEmployee.inputEmployeeManager,employeeList));
           break;
     case 'UpdateEmployeeRole': 
-          employee.UpdateEmployeeRole(getIdByName(response.UpdateEmployeeRole.Employee,employeeList),getIdByName(response.UpdateEmployeeRole.newRole,roleList));
+          employee.UpdateEmployeeRole(getIdByName(response.UpdateEmployeeRole.Employee,employeeList),
+                getIdByName(response.UpdateEmployeeRole.newRole,roleList));
           break;
     case  'UpdateEmployeeManager':
-          employee.UpdateEmployeeManager(getIdByName(response.UpdateEmployeeManager.Employee,employeeList),getIdByName(response.UpdateEmployeeManager.newEmployeeManager,employeeList));
-          
+          employee.UpdateEmployeeManager(getIdByName(response.UpdateEmployeeManager.Employee,employeeList),
+                getIdByName(response.UpdateEmployeeManager.newEmployeeManager,employeeList));
           break;
     case "Quit":
           process.exit(1)
           break;
   }
-
+  console.log("done")
   main();
 } 
 
@@ -258,11 +261,8 @@ function performAction(response)
    ****************************************/
   
   const main = () =>{
-    console.log("env: "+process.env.DB_HOST);
-    console.log("env: "+process.env.DB_USER);
-    console.log("env: "+process.env.DB_PASSWORD);
+
    // getChoices();
-    console.log("")
     inquirer
     .prompt(mainQuestions) 
     .then((answers) => {
