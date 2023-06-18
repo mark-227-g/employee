@@ -32,8 +32,8 @@ function getDepartments(){
       }
     }
   })
-    console.log("department list")
-    console.log(departmentList)
+   // console.log("department list")
+   // console.log(departmentList)
     dbfunc.closedb(db);
   }
    
@@ -57,8 +57,8 @@ function getRoles(){
       }
     }
     })
-    console.log("Role List");
-    console.log(roleList);
+  //  console.log("Role List");
+  //  console.log(roleList);
       dbfunc.closedb(db);
   }
 
@@ -82,8 +82,8 @@ function getEmployees(){
       }
     }
     })
-    console.log("employee list")
-    console.log(employeeList)
+ //   console.log("employee list")
+ //   console.log(employeeList)
     dbfunc.closedb(db);
 }
 
@@ -283,7 +283,15 @@ function performAction(response)
   }
   
   function splash(){
-    console.log(figlet);
+    console.log(
+    figlet.textSync("employee tracker", {
+      
+      horizontalLayout: "default",
+      verticalLayout: "default",
+      width: 80,
+      whitespaceBreak: true,
+    }));
     main();
   }
-  main();
+ // main();
+ splash();
